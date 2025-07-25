@@ -43,12 +43,14 @@ export default function Header({ isScrolled, scrollToSection }: HeaderProps) {
               >
                 開催キット
               </button>
-              <button 
-                onClick={() => scrollToSection('line-register')} 
+              <a
+                href="https://lin.ee/Za6tMUE"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full font-semibold transition-colors"
               >
                 LINE登録
-              </button>
+              </a>
             </div>
           </div>
         </div>

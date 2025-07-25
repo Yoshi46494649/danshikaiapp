@@ -50,16 +50,25 @@ export default function LineRegistrationSection() {
               <div className="bg-white rounded-xl p-8 shadow-sm">
                 <div className="bg-green-50 rounded-xl p-6 mb-6">
                   <div className="w-40 h-40 bg-gray-200 rounded-xl mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-gray-500 text-lg">QRコード</span>
+                    <img
+                      src="/line-qr.png"
+                      alt="LINE QRコード"
+                      className="w-40 h-40 object-contain rounded-xl"
+                    />
                   </div>
                   <p className="text-gray-600 font-medium">
                     QRコードをスキャンして<br />LINE友達追加
                   </p>
                 </div>
-                <button className="w-full bg-green-500 text-white py-4 rounded-full text-lg font-semibold hover:bg-green-600 transition-colors shadow-lg">
+                <a
+                  href="https://lin.ee/Za6tMUE"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full bg-green-500 text-white py-4 rounded-full text-lg font-semibold hover:bg-green-600 transition-colors shadow-lg block text-center"
+                >
                   <MessageCircle className="inline mr-2" size={24} />
                   LINE登録する
-                </button>
+                </a>
               </div>
             </div>
           </div>

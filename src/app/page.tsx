@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { ChevronDown, MapPin, Calendar, Users, ExternalLink, MessageCircle, Instagram, Globe } from 'lucide-react'
+import { ChevronDown, MapPin, Calendar, Users, ExternalLink, MessageCircle, Instagram, Globe, Twitter, Facebook, Youtube } from 'lucide-react'
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -39,20 +39,33 @@ export default function Home() {
   }, [])
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
+    // Input validation for security
+    if (!sectionId || typeof sectionId !== 'string' || sectionId.length > 50) {
+      console.warn('Invalid section ID provided')
+      return
+    }
+    
+    // Sanitize input - only allow alphanumeric, dash, underscore
+    const sanitizedId = sectionId.replace(/[^a-zA-Z0-9\-_]/g, '')
+    if (sanitizedId !== sectionId) {
+      console.warn('Section ID contains invalid characters')
+      return
+    }
+    
+    const element = document.getElementById(sanitizedId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
   const locations = [
-    { name: '東京', country: '日本', lat: 35.6762, lng: 139.6503, schedule: '毎月第2土曜日' },
-    { name: '広島', country: '日本', lat: 34.3853, lng: 132.4553, schedule: '毎月第3日曜日' },
-    { name: '島根', country: '日本', lat: 35.4724, lng: 133.0505, schedule: '毎月第1土曜日' },
-    { name: 'ブリスベン', country: 'オーストラリア', lat: -27.4698, lng: 153.0251, schedule: '毎月第2土曜日' },
-    { name: 'パース', country: 'オーストラリア', lat: -31.9505, lng: 115.8605, schedule: '毎月第4日曜日' },
-    { name: 'メルボルン', country: 'オーストラリア', lat: -37.8136, lng: 144.9631, schedule: '毎月第3土曜日' },
-    { name: '宜蘭', country: '台湾', lat: 24.7021, lng: 121.7377, schedule: '毎月第1日曜日' }
+    { name: '東京', country: '日本', lat: 35.6762, lng: 139.6503, schedule: '不定期' },
+    { name: '広島', country: '日本', lat: 34.3853, lng: 132.4553, schedule: '不定期' },
+    { name: '島根', country: '日本', lat: 35.4724, lng: 133.0505, schedule: '不定期' },
+    { name: 'ブリスベン', country: 'オーストラリア', lat: -27.4698, lng: 153.0251, schedule: '次回8月予定' },
+    { name: 'パース', country: 'オーストラリア', lat: -31.9505, lng: 115.8605, schedule: '次回8月予定' },
+    { name: 'メルボルン', country: 'オーストラリア', lat: -37.8136, lng: 144.9631, schedule: '次回9月予定' },
+    { name: '宜蘭', country: '台湾', lat: 24.7021, lng: 121.7377, schedule: '不定期' }
   ]
 
   return (
@@ -64,14 +77,14 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-black">男子会</h1>
+              <img src="/smalllogo.png" alt="男子会" className="h-24" />
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
                 <button onClick={() => scrollToSection('about')} className="text-gray-700 hover:text-black transition-colors">男子会とは</button>
                 <button onClick={() => scrollToSection('locations')} className="text-gray-700 hover:text-black transition-colors">活動エリア</button>
                 <button onClick={() => scrollToSection('host-kit')} className="text-gray-700 hover:text-black transition-colors">開催キット</button>
-                <button onClick={() => scrollToSection('line-register')} className="line-button text-white px-4 py-2 rounded-lg transition-all">LINE登録</button>
+                <a href="https://lin.ee/Za6tMUE" target="_blank" rel="noopener noreferrer" className="line-button text-white px-4 py-2 rounded-lg transition-all">LINE登録</a>
               </div>
             </div>
           </div>
@@ -82,7 +95,7 @@ export default function Home() {
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80')` }}
+          style={{ backgroundImage: `url('/hero-bg.jpg')` }}
         >
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
@@ -93,13 +106,15 @@ export default function Home() {
           <p className="text-xl md:text-2xl mb-8 animate-fade-in-up animation-delay-200">
             世界中の日本人男性がつながる、信頼できるコミュニティ
           </p>
-          <button 
-            onClick={() => scrollToSection('line-register')}
-            className="line-button text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 animate-fade-in-up animation-delay-400"
+          <a 
+            href="https://lin.ee/Za6tMUE"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block line-button text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 animate-fade-in-up animation-delay-400"
           >
             <MessageCircle className="inline-block mr-2" size={24} />
             LINE登録して参加する
-          </button>
+          </a>
         </div>
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <ChevronDown size={32} className="text-white" />
@@ -134,7 +149,7 @@ export default function Home() {
               }`}
             >
               <img 
-                src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                src="/hero-bg.jpg"
                 alt="男性たちの会話" 
                 className="rounded-lg shadow-lg w-full h-80 object-cover hover-lift"
               />
@@ -241,7 +256,7 @@ export default function Home() {
               visibleElements.has('maps') ? 'animate-scale-in' : 'opacity-0 scale-95'
             }`}>
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.0273901684143!2d139.65031!3d35.6762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188b857628235d%3A0xcdd8aef709a2b520!2z5p2x5Lqs!5e0!3m2!1sja!2sjp!4v1642000000000!5m2!1sja!2sjp"
+                src="https://www.google.com/maps/d/embed?mid=1wuzMi9Oo6uvbUvdHJmQdBcf10cgmclo&ehbc=2E312F"
                 width="100%"
                 height="400"
                 style={{ border: 0 }}
@@ -249,6 +264,8 @@ export default function Home() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 className="w-full"
+                sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+                title="男子会活動エリアマップ"
               />
             </div>
           </div>
@@ -295,15 +312,49 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="bg-gray-100 rounded-lg p-8 text-center">
-            <Instagram className="mx-auto mb-4 text-pink-500" size={48} />
-            <h3 className="text-xl font-semibold mb-2">Instagram投稿</h3>
-            <p className="text-gray-600 mb-4">
-              SnapWidgetを使用してInstagramの最新投稿を表示予定
-            </p>
-            <p className="text-sm text-gray-500">
-              ※ 実装時にSnapWidgetのiframeコードを埋め込みます
-            </p>
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 p-6">
+              <div className="flex items-center justify-center">
+                <Instagram className="text-white mr-3" size={32} />
+                <h3 className="text-2xl font-bold text-white">Instagram投稿</h3>
+              </div>
+            </div>
+            
+            <div className="p-6 bg-gray-50">
+              <div className="flex justify-center">
+                <div className="w-full max-w-4xl">
+                  {/* SnapWidget */}
+                  <div className="relative w-full" style={{ paddingBottom: '66.67%' }}>
+                    <iframe 
+                      src="https://snapwidget.com/embed/1103737" 
+                      className="absolute top-0 left-0 w-full h-full rounded-lg shadow-md"
+                      allowTransparency={true}
+                      frameBorder="0" 
+                      scrolling="no" 
+                      style={{ border: 'none', overflow: 'hidden' }}
+                      title="Posts from Instagram"
+                      sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="text-center mt-6">
+                <p className="text-gray-600 mb-4">
+                  男子会の楽しい雰囲気をInstagramでチェック！
+                </p>
+                <a 
+                  href="https://instagram.com/danshikaigrobal" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 shadow-lg"
+                >
+                  <Instagram className="mr-2" size={20} />
+                  Instagramをフォロー
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -347,7 +398,7 @@ export default function Home() {
                 </li>
               </ul>
               <a 
-                href="#" 
+                href="https://cabapost.notion.site/2300038a9b85800da89dd19505f4bd6a?source=copy_link" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
@@ -402,17 +453,26 @@ export default function Home() {
               <div className="text-center">
                 <div className="bg-green-50 rounded-lg p-8">
                   <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
-                    <div className="w-32 h-32 bg-gray-200 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                      <span className="text-gray-500">QRコード</span>
+                    <div className="w-32 h-32 mx-auto mb-4">
+                      <img 
+                        src="/line-qr.png" 
+                        alt="LINE QRコード" 
+                        className="w-full h-full object-contain rounded-lg"
+                      />
                     </div>
                     <p className="text-sm text-gray-600">
                       QRコードをスキャンして<br />LINE友達追加
                     </p>
                   </div>
-                  <button className="w-full bg-green-500 text-white py-4 rounded-lg text-lg font-semibold hover:bg-green-600 transition-colors">
+                  <a 
+                    href="https://line.me/ti/p/@583drnec" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="block w-full bg-green-500 text-white py-4 rounded-lg text-lg font-semibold hover:bg-green-600 transition-colors text-center"
+                  >
                     <MessageCircle className="inline mr-2" size={24} />
                     LINE登録する
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -425,7 +485,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-2xl font-bold mb-4">男子会</h3>
+              <img src="/smalllogo.png" alt="男子会" className="h-8 mb-4" />
               <p className="text-gray-300 mb-4">
                 語れる場所が、ここにある。<br />
                 世界中の日本人男性がつながるコミュニティ
@@ -446,7 +506,7 @@ export default function Home() {
                   </button>
                 </li>
                 <li>
-                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
+                  <a href="https://cabapost.notion.site/2300038a9b85800da89dd19505f4bd6a?source=copy_link" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
                     開催キット（Notion）
                   </a>
                 </li>
@@ -454,17 +514,45 @@ export default function Home() {
             </div>
             
             <div>
-              <h4 className="text-lg font-semibold mb-4">お問い合わせ</h4>
-              <p className="text-gray-300 mb-4">
-                ご質問やご相談は<br />LINEからお気軽にどうぞ
-              </p>
-              <button 
-                onClick={() => scrollToSection('line-register')}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
-              >
-                <MessageCircle className="inline mr-2" size={16} />
-                LINE登録
-              </button>
+              <h4 className="text-lg font-semibold mb-4">SNS & お問い合わせ</h4>
+              <div className="space-y-3 mb-4">
+                <a 
+                  href="https://m.facebook.com/ausdanshikai/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-gray-300 hover:text-white transition-colors"
+                >
+                  <Facebook className="mr-2" size={16} />
+                  Facebook
+                </a>
+                <a 
+                  href="https://instagram.com/danshikaigrobal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-gray-300 hover:text-white transition-colors"
+                >
+                  <Instagram className="mr-2" size={16} />
+                  Instagram
+                </a>
+                <a 
+                  href="https://line.me/ti/p/@583drnec"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-gray-300 hover:text-white transition-colors"
+                >
+                  <MessageCircle className="mr-2" size={16} />
+                  LINE
+                </a>
+                <a 
+                  href="https://cabapost.notion.site/2300038a9b85800da89dd19505f4bd6a?source=copy_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-gray-300 hover:text-white transition-colors"
+                >
+                  <ExternalLink className="mr-2" size={16} />
+                  Notion（開催キット）
+                </a>
+              </div>
             </div>
           </div>
           
