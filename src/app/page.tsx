@@ -6,7 +6,7 @@ import { ChevronDown, MapPin, Calendar, Users, ExternalLink, MessageCircle, Inst
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [visibleElements, setVisibleElements] = useState(new Set<string>())
-  const observerRef = useRef<IntersectionObserver>()
+  const observerRef = useRef<IntersectionObserver | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
